@@ -27,20 +27,33 @@ PLATFORMS = {
 #     'linux-x64-musl': 'musllinux_1_1_x86_64'
 }
 
+HYPYR_ROOT = Path.home() / ".cache" / f"hypyrpyram"
 
 def main():
     print("Hello from hypyrpyram!")
 
+    # Get root path to use
+    root_path = ""
+
     # Check for node/npx, if not, install it
     if os.system('npx -v') != 0:
-        install_node()
+        # Check cache
+        for file in (HYPYR_ROOT.glob("node-v*")):
+            if file.is_dir() and (file / "bin" / "node").exists():
+                root_path = file / "bin"
+        if not root_path:
+            root_path = install_node()
 
     # Run npx hyperparam, with passed args
     args = sys.argv[1:]
-    os.system(f'npx hyperparam {" ".join(args)}')
+    if root_path:
+        os.environ["PATH"] += ":" + str(root_path)
+        print("PATH", os.environ["PATH"])
+    os.system(f'npx --yes hyperparam {" ".join(args)}')
 
 
-def install_node(node_version: str = '22.3.0'):
+
+def install_node(node_version: str = '22.3.0') -> str:
     print('--')
     print('Making Node.js Wheels for version', node_version)
 
@@ -59,7 +72,7 @@ def install_node(node_version: str = '22.3.0'):
             print(f'  Skipping {node_platform}')
             continue
 
-        compressed_file = Path.home() / ".cache" / f"hypyrpyram" / f"node-v{node_version}-{node_platform}.{filetype}"
+        compressed_file = HYPYR_ROOT / f"node-v{node_version}-{node_platform}.{filetype}"
         compressed_file.parent.mkdir(exist_ok=True, parents=True)
         # Write the .tar.xz
         with open(compressed_file, "wb") as f:
@@ -71,7 +84,8 @@ def install_node(node_version: str = '22.3.0'):
             tar.extractall(compressed_file.parent)
         tar.close()
 
-        node_path = compressed_file.parent / f"node-v{node_version}-{node_platform}" / "bin" / "node"
+        node_path = compressed_file.parent / f"node-v{node_version}-{node_platform}" / "bin"
+        return node_path
 
 if __name__ == '__main__':
     main()
