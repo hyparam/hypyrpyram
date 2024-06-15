@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'hyp = hyp:main',
+            'hyp = hypyrpyram.hyp:main',
         ]
     },
     classifiers=[
