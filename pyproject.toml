@@ -10,10 +10,7 @@ readme = "README.md"
 authors = [
     { name = "Hyperparam", email = "kenny@hyperparam.app" }
 ]
-maintainers = [
-    { name = "Hyperparam", email = "kenny@hyperparam.app" }
-]
-license = { file = "LICENSE" }
+license = { text = "MIT" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -25,8 +22,8 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/hyparam/hypyrpyram"
+"Homepage" = "https://github.com/hyparam/pypyrpyram"
 
 [project.scripts]
-hyp = "hypyrpyram.hyp:main"
-hyperparam = "hypyrpyram.hyp:main"
+hyp = "hyperparam.hyp:main"
+hyperparam = "hyperparam.hyp:main"

@@ -17,7 +17,7 @@ HYPYR_CACHE = Path.home() / ".cache" / f"hypyrpyram"
 ARCH = platform.system().lower() + "-" + os.uname().machine
 
 def main():
-    print("Hello from hypyrpyram!")
+    print("Hello from hyperparam!")
 
     # Get root path to use
     root_path = ""
